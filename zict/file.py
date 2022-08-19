@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import mmap
 import os
+from pathlib import Path
 from collections.abc import Iterator
 from urllib.parse import quote, unquote
 
@@ -95,6 +96,7 @@ class File(ZictBase[str, bytes]):
         | tuple[bytes]
         | tuple[bytearray],
     ) -> None:
+        Path(self.directory).mkdir(parents=True, exist_ok=True)
         fn = os.path.join(self.directory, _safe_key(key))
         with open(fn, "wb") as fh:
             if isinstance(value, (tuple, list)):
